@@ -1,0 +1,30 @@
+<div class="box-body">
+    <table id="example2" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>title</th>
+            <th>Description</th>
+            <th>Category </th>
+            <th>Prix</th>
+            <th>Quantité </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for formation in formations %}
+            <tr>
+                <td>{{ formation.id }} </td>
+                <td>{{ formation.libelle }}</td>
+                <td>{{ formation.description }}</td>
+                <td>{{ formation.date }}</td>
+                <td>{{ formation.type }}</td>
+                <td><img  src="{{ asset('uploads/brochures/' ~ formation.getImage()) }}" alt="houmti"/></td>
+
+
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
