@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\Myformation;
 use App\Form\FormationType;
 use App\Repository\MyformationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +44,7 @@ class FormationController extends AbstractController
             $formation= $form->getData();
             // On récupère les images transmises
             $file = $form->get('image')->getData();
-
+            var_dump($file);
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             // moves the file to the directory where brochures are stored
             try {
@@ -52,9 +54,42 @@ class FormationController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
 
+            $brochureFile = $form->get('brochure')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $formation->setBrochureFilename($newFilename);
+            }
+
+
+
+
+
+
+            var_dump($formation);
             $formation->setImage($fileName);
+           var_dump($formation);
             $em->persist($formation);
             $em->flush();
+
 
             return $this->redirectToRoute('list_formation');
         }

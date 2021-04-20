@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MyformationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -58,6 +60,15 @@ class Myformation
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
      */
     private $image;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="brochure_filename", type="string", length=255, nullable=false)
+     */
+    private $brochureFilename;
+
 
 
     public function getId(): ?int
@@ -124,6 +135,28 @@ class Myformation
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getBrochureFilename(): string
+    {
+        return $this->brochureFilename;
+    }
+
+    /**
+     * @param string $brochureFilename
+     */
+    public function setBrochureFilename(string $brochureFilename): void
+    {
+        $this->brochureFilename = $brochureFilename;
+    }
+
+
+
+
+
+
 
 
 }

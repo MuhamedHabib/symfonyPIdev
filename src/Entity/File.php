@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FileRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * File
@@ -25,7 +28,7 @@ class File
     /**
      * @var string
      *
-     * @ORM\Column(name="file", type="string", length=111, nullable=false)
+     * @ORM\Column(name="file", type="string", length=111, nullable=true)
      */
     private $file;
 
@@ -37,21 +40,17 @@ class File
     private $dateCreation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="myfile", type="string", length=100, nullable=false)
+     * @var UploadedFile
      */
-    private $myfile;
+    private $myFile;
 
     /**
-     * @var \Myformation
-     *
-     * @ORM\ManyToOne(targetEntity="Myformation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity=Myformation::class, inversedBy="files")
+     * @ORM\JoinColumn(name="id" , nullable=false)
      */
     private $id;
+
+
 
     public function getIdFile(): ?int
     {
@@ -82,17 +81,22 @@ class File
         return $this;
     }
 
-    public function getMyfile(): ?string
+    /**
+     * @return UploadedFile
+     */
+    public function getMyFile(): UploadedFile
     {
-        return $this->myfile;
+        return $this->myFile;
     }
 
-    public function setMyfile(string $myfile): self
+    /**
+     * @param UploadedFile $myFile
+     */
+    public function setMyFile(UploadedFile $myFile): void
     {
-        $this->myfile = $myfile;
-
-        return $this;
+        $this->myFile = $myFile;
     }
+
 
     public function getId(): ?Myformation
     {
@@ -105,6 +109,8 @@ class File
 
         return $this;
     }
+
+
 
 
 }
