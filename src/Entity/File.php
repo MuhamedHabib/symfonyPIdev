@@ -40,15 +40,19 @@ class File
     private $dateCreation;
 
     /**
-     * @var UploadedFile
+     * @ORM\Column(type="string")
      */
     private $myFile;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Myformation::class, inversedBy="files")
-     * @ORM\JoinColumn(name="id" , nullable=false)
+     * @ORM\ManyToOne(targetEntity=Myformation::class, inversedBy="brochureFilename")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     * })
      */
-    private $id;
+    private $myformation;
+
+
 
 
 
@@ -81,34 +85,38 @@ class File
         return $this;
     }
 
+
+
+    public function getMyformation(): ?Myformation
+    {
+        return $this->myformation;
+    }
+
+    public function setMyformation(?Myformation $myformation): self
+    {
+        $this->myformation = $myformation;
+
+        return $this;
+    }
+
     /**
-     * @return UploadedFile
+     * @return mixed
      */
-    public function getMyFile(): UploadedFile
+    public function getMyFile()
     {
         return $this->myFile;
     }
 
     /**
-     * @param UploadedFile $myFile
+     * @param mixed $myFile
      */
-    public function setMyFile(UploadedFile $myFile): void
+    public function setMyFile($myFile): void
     {
         $this->myFile = $myFile;
     }
 
 
-    public function getId(): ?Myformation
-    {
-        return $this->id;
-    }
 
-    public function setId(?Myformation $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
 
 

@@ -6,6 +6,8 @@ use App\Entity\File;
 use App\Entity\Myformation;
 use App\Form\FormationType;
 use App\Repository\MyformationRepository;
+use App\Service\FormationService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -16,6 +18,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FormationController extends AbstractController
 {
+
+
+    /**
+     * @var FormationService
+     */
+    private $formationService;
+
+
+    /**
+     * BlogController constructor.
+     * @param FormationService $formationService
+     */
+    public function __construct(FormationService $formationService)
+    {
+
+        $this->formationService = $formationService;
+    }
     /**
      * @Route("/formation", name="formation")
      */
@@ -54,42 +73,42 @@ class FormationController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
 
-            $brochureFile = $form->get('brochure')->getData();
+            $brochureFiles = $form->get('brochure')->getData();
 
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+            if ($brochureFiles) {
+                // On boucle sur les images
+                foreach ($brochureFiles as $brochureFile) {
+                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $brochureFile->move(
+                            $this->getParameter('file_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+
+                    $file = new File();
+                    $file->setMyFile($newFilename);
+                    $file->setFile(($request->get("typefile")));
+                    $file->setDateCreation(new \DateTime());
+                    $formation->addBrochureFilename($file);
                 }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $formation->setBrochureFilename($newFilename);
             }
-
-
-
-
-
-
-            var_dump($formation);
+            $formation->setDateCreation(new \DateTime());
             $formation->setImage($fileName);
-           var_dump($formation);
             $em->persist($formation);
             $em->flush();
-
 
             return $this->redirectToRoute('list_formation');
         }
@@ -112,6 +131,34 @@ class FormationController extends AbstractController
     }
 
 
+
+
+
+
+    /**
+     * @Route("/user/formation/show", name="show")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function showFormation(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
+    {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $donnees = $this->getDoctrine()->getRepository(Myformation::class)->findBy([],['dateCreation' => 'desc']);
+
+        $formations = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3 // Nombre de résultats par page
+        );
+
+        return $this->render('user/list.html.twig', [
+            'formations' => $formations,
+        ]);
+    }
+
+
+
     /**
      * @Route("/formation/edit/{id}", name="edit_formation")
      * @param $id
@@ -119,14 +166,13 @@ class FormationController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    function editFormation($id,MyformationRepository $repository,\Symfony\Component\HttpFoundation\Request $request){
+    function editFormation($id,MyformationRepository$repository,Request $request){
 
         $formation=$repository->find($id);
         $editform=$this->createForm(FormationType::class,$formation);
         $editform->handleRequest($request);
         if ($editform->isSubmitted() && $editform->isValid()){
-
-            $formation= $editform->getData();
+            $em=$this->getDoctrine()->getManager();
             // On récupère les images transmises
             $file = $editform->get('image')->getData();
 
@@ -138,14 +184,46 @@ class FormationController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
-            $em=$this->getDoctrine()->getManager();
+            /** @var UploadedFile $brochureFiles */
+            $brochureFiles = $editform->get('brochure')->getData();
 
+            if ($brochureFiles) {
+                // On boucle sur les images
+                foreach ($brochureFiles as $brochureFile) {
+                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $brochureFile->move(
+                            $this->getParameter('file_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+
+                    $file = new File();
+                    $file->setMyFile($newFilename);
+                    $file->setFile("esprit");
+                    $file->setDateCreation(new \DateTime());
+                    $formation->addBrochureFilename($file);
+                }
+            }
+            $formation->setDateCreation(new \DateTime());
             $formation->setImage($fileName);
+            $em->persist($formation);
             $em->flush();
+
 
             return $this->redirectToRoute("list_formation");
         }
-        return $this->render('product/edit.html.twig',
+        return $this->render('formation/edit.html.twig',
             [
                 'editform'=>$editform->createView()
             ]);
@@ -161,12 +239,54 @@ class FormationController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $formation =$em->getRepository(Myformation::class)->find($id);
-
-
+        $files =$em->getRepository(File::class)->findBy(['myformation'=>$formation]);
+        foreach ($files as $file){
+            // On récupère le nom de l'image
+            $nom = $file->getMyFile();
+            // On supprime le fichier
+           //$file->remove(
+           //$this->getParameter('brochures_directory').'/'.$nom);
+            unlink($this->getParameter('file_directory').'/'.$nom);
+            $em->remove($file);
+            $em->flush();
+        }
         $em->remove($formation);
         $em->flush();
-        return $this->redirectToRoute('list_product');
+        return $this->redirectToRoute('list_formation');
     }
 
+
+    /**
+     * @param Request $request
+     * @param MyformationRepository $repository
+     * @return Response
+     * @Route ("/rechercheM",name="rechercheM")
+     */
+
+    function Recherche(Request $request,MyformationRepository $repository){
+        $data=$request->get('search');
+
+        $formation=$repository->findBy(['libelle'=>$data]);
+        return $this->render('formation/list.html.twig',[
+            'formations'=>$formation
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/formation/detail/{id}", name="detail")
+     * @param $id
+     * @return Response
+     */
+    public function formationDetail ($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $formation = $em->getRepository(Myformation::class)->findOneBy(['id'=>$id]);
+
+        return $this->render('formation/detailFormation.html.twig', [
+            'formation' => $formation
+        ]);
+    }
 
 }

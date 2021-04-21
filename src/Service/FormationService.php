@@ -3,37 +3,46 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+
+use App\Repository\MyformationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class FormationService
 {
+    CONST LIMIT=3;
+    /**
+     * @var MyformationRepository
+     */
+    private $formationRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
 
-    private $targetDirectory;
 
-    public function __construct($targetDirectory)
+
+    /**
+     * homeService constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param MyformationRepository $formationRepository
+     */
+    public function __construct(EntityManagerInterface $entityManager,  MyformationRepository $formationRepository)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->entityManager = $entityManager;
+        $this->formationRepository = $formationRepository;
     }
 
-    public function upload(UploadedFile $file)
-    {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-        try {
-            $file->move($this->getTargetDirectory(), $fileName);
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
-        }
-
-        return $fileName;
+    public function getBlogs(int $offset ){
+        return $this->formationRepository->findBy([],['dateCreation' => 'DESC'],self::LIMIT,$offset);
     }
 
-    public function getTargetDirectory()
-    {
-        return $this->targetDirectory;
+
+    public function getLast3Blogs(){
+        return $this->formationRepository->findBy([],['dateCreation' => 'desc'],3);
     }
+
+
 }

@@ -18,18 +18,19 @@ class FormationType extends AbstractType
         $builder
             ->add('libelle')
             ->add('description')
-            ->add('date')
             ->add('type')
-            ->add('image', FileType::class)
+            ->add('image', FileType::class, array('data_class' => null))
             ->add('brochure', FileType::class, [
                 'label' => 'Brochure (PDF file)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
+                'multiple' => true,
+                'data_class' => null,
 
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
-                'required' => false,
+                'required' => true,
 
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
@@ -37,9 +38,7 @@ class FormationType extends AbstractType
             ])
             // ...
 
-            ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'save'],
-            ]);
+        ;
 
     }
 

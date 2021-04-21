@@ -1,0 +1,93 @@
+
+{% extends 'user/layoutUser.html.twig' %}
+{% block title %}La liste de formation{% endblock %}
+{% block content %}
+
+        <!-- about breadcrumb -->
+        <section class="w3l-about-breadcrumb text-left">
+            <div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
+                <div class="container">
+                    <h2 class="title">Formationq  </h2>
+                </div>
+            </div>
+        </section>
+        <!-- //about breadcrumb -->
+        <!--  Work gallery section -->
+        <section class="grids-1 py-5">
+            <div class="grids py-lg-5 py-md-4">
+                <div class="container">
+
+                    <div class="row">
+                        {% for formation in formations %}
+                            <div class="col-lg-4 col-md-4 col-6">
+                                <div class="column">
+                                    <a href="blog-single.html">
+                                        <img  src="{{ asset('uploads/brochures/' ~ formation.getImage()) }}"  class="img-fluid"/>
+                                        <div class="info">
+                                            <h4><a href="blog-single.html">{{ formation.libelle }}</a></h4>
+                                            <h6 class=""> type : {{formation.type }}</h6>
+                                            <p>Description : {{ formation.description}}  </p>
+                                            <div class="dst-btm">
+                                                <span style="color: #a94442">{{ formation.dateCreation|date("Y/m/d") }}</span>
+                                            </div>
+                                            <span>  {% if formation.brochureFilename %}
+                                                    <td>
+                                    {% for file in formation.brochureFilename %}
+                                        <a href="{{ asset('uploads/brochures/' ~ file.myFile) }}">View brochure (PDF)</a>
+                                    {% endfor %}</td>
+                            {% else %}
+                                                    <td>
+                                    <span> rien </span>
+                                </td>
+                                                {% endif %}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="navigation">
+                    {{ knp_pagination_render(formations) }}
+                </div>
+
+
+
+            </div>
+        </section>
+        <!--  //Work gallery section -->
+        <!-- grids block 5 -->
+
+        <script>
+            $(window).on("scroll", function () {
+                var scroll = $(window).scrollTop();
+
+                if (scroll >= 80) {
+                    $("#site-header").addClass("nav-fixed");
+                } else {
+                    $("#site-header").removeClass("nav-fixed");
+                }
+            });
+
+            //Main navigation Active Class Add Remove
+            $(".navbar-toggler").on("click", function () {
+                $("header").toggleClass("active");
+            });
+            $(document).on("ready", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+                $(window).on("resize", function () {
+                    if ($(window).width() > 991) {
+                        $("header").removeClass("active");
+                    }
+                });
+            });
+
+        </script>
+        <!--//MENU-JS-->
+
+
+
+
+{% endblock  content%}
