@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FileRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * File
@@ -25,7 +28,7 @@ class File
     /**
      * @var string
      *
-     * @ORM\Column(name="file", type="string", length=111, nullable=false)
+     * @ORM\Column(name="file", type="string", length=111, nullable=true)
      */
     private $file;
 
@@ -37,21 +40,21 @@ class File
     private $dateCreation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="myfile", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string")
      */
-    private $myfile;
+    private $myFile;
 
     /**
-     * @var \Myformation
-     *
-     * @ORM\ManyToOne(targetEntity="Myformation")
+     * @ORM\ManyToOne(targetEntity=Myformation::class, inversedBy="brochureFilename")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="id")
      * })
      */
-    private $id;
+    private $myformation;
+
+
+
+
 
     public function getIdFile(): ?int
     {
@@ -82,29 +85,40 @@ class File
         return $this;
     }
 
-    public function getMyfile(): ?string
+
+
+    public function getMyformation(): ?Myformation
     {
-        return $this->myfile;
+        return $this->myformation;
     }
 
-    public function setMyfile(string $myfile): self
+    public function setMyformation(?Myformation $myformation): self
     {
-        $this->myfile = $myfile;
+        $this->myformation = $myformation;
 
         return $this;
     }
 
-    public function getId(): ?Myformation
+    /**
+     * @return mixed
+     */
+    public function getMyFile()
     {
-        return $this->id;
+        return $this->myFile;
     }
 
-    public function setId(?Myformation $id): self
+    /**
+     * @param mixed $myFile
+     */
+    public function setMyFile($myFile): void
     {
-        $this->id = $id;
-
-        return $this;
+        $this->myFile = $myFile;
     }
+
+
+
+
+
 
 
 }

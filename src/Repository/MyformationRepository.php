@@ -19,6 +19,14 @@ class MyformationRepository extends ServiceEntityRepository
         parent::__construct($registry, Myformation::class);
     }
 
+    public function findFormationByName($libelle){
+        return $this->createQueryBuilder('formation')
+            ->where('formation.libelle LIKE :libelle')
+            ->setParameter('libelle', '%'.$libelle.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Myformation[] Returns an array of Myformation objects
     //  */

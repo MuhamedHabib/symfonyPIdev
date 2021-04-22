@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MyformationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -39,11 +42,11 @@ class Myformation
     private $description;
 
     /**
-     * @var string
+     * @var DateTime
      *
-     * @ORM\Column(name="date", type="string", length=50, nullable=false)
+     * @ORM\Column(name="date_creation", type="date", nullable=false)
      */
-    private $date;
+    private $dateCreation;
 
     /**
      * @var string
@@ -58,6 +61,16 @@ class Myformation
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=File::class, mappedBy="myformation" ,cascade={"persist"})
+     */
+    private $brochureFilename;
+
+    public function __construct()
+    {
+        $this->brochureFilename = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -89,17 +102,23 @@ class Myformation
         return $this;
     }
 
-    public function getDate(): ?string
+    /**
+     * @return DateTime
+     */
+    public function getDateCreation(): DateTime
     {
-        return $this->date;
+        return $this->dateCreation;
     }
 
-    public function setDate(string $date): self
+    /**
+     * @param DateTime $dateCreation
+     */
+    public function setDateCreation(DateTime $dateCreation): void
     {
-        $this->date = $date;
-
-        return $this;
+        $this->dateCreation = $dateCreation;
     }
+
+
 
     public function getType(): ?string
     {
@@ -124,6 +143,44 @@ class Myformation
 
         return $this;
     }
+
+    /**
+     * @return Collection|File[]
+     */
+    public function getBrochureFilename(): Collection
+    {
+        return $this->brochureFilename;
+    }
+
+    public function addBrochureFilename(File $brochureFilename): self
+    {
+        if (!$this->brochureFilename->contains($brochureFilename)) {
+            $this->brochureFilename[] = $brochureFilename;
+            $brochureFilename->setMyformation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBrochureFilename(File $brochureFilename): self
+    {
+        if ($this->brochureFilename->removeElement($brochureFilename)) {
+            // set the owning side to null (unless already changed)
+            if ($brochureFilename->getMyformation() === $this) {
+                $brochureFilename->setMyformation(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
+
+
+
+
 
 
 }
