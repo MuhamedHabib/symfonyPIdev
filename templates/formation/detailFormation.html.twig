@@ -25,7 +25,7 @@
                                 <li>
                                     {% if formation.brochureFilename %}
                                             {% for file in formation.brochureFilename %}
-                                <li class="list-group-item"><strong>Type de fichier : &nbsp</strong>{{ file.file }} &nbsp</strong>
+                                <li class="list-group-item"><strong>Type de formation : &nbsp</strong>{{ file.file }} &nbsp</strong>
                                     <a href="{{ asset('uploads/brochures/' ~ file.myFile) }}">{{ file.Myfile }}View brochure (PDF)</a>
                                             {% endfor %}
                                     {% else %}

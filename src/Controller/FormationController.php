@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\File;
 use App\Entity\Myformation;
+use App\Form\ContactType;
 use App\Form\FormationType;
 use App\Repository\MyformationRepository;
 use App\Service\FormationService;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\DocBlock\Serializer;
+use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,6 +19,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class FormationController extends AbstractController
 {
@@ -63,7 +70,7 @@ class FormationController extends AbstractController
             $formation= $form->getData();
             // On récupère les images transmises
             $file = $form->get('image')->getData();
-            var_dump($file);
+          #  var_dump($file);
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             // moves the file to the directory where brochures are stored
             try {
@@ -210,7 +217,8 @@ class FormationController extends AbstractController
 
                     $file = new File();
                     $file->setMyFile($newFilename);
-                    $file->setFile("esprit");
+                   // $file->setFile("esprit");
+                    $file->setFile(($request->get("typefile")));
                     $file->setDateCreation(new \DateTime());
                     $formation->addBrochureFilename($file);
                 }
@@ -287,6 +295,47 @@ class FormationController extends AbstractController
         return $this->render('formation/detailFormation.html.twig', [
             'formation' => $formation
         ]);
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     * @param Request $request
+     * @param Swift_Mailer $mailer
+     * @return Response
+     */
+    public function email(Request $request , Swift_Mailer $mailer)
+    {
+
+        $contact= new Contact();
+        $form = $this->createForm(ContactType::class,$contact);
+        $form->handleRequest($request);
+        # check if form is submitted
+
+        if($form->isSubmitted() &&  $form->isValid()) {
+            $name = $form['name']->getData();
+            $email = $form['email']->getData();
+            $message = $form['message']->getData();
+
+            # set form data
+
+            $contact->setName($name);
+            $contact->setEmail($email);
+            $contact->setMessage($message);
+
+            # finally add data in database
+
+            $sn = $this->getDoctrine()->getManager();
+            $sn->persist($contact);
+            $sn->flush();
+            $subj = (new \Swift_Message('Proposition Formation'))
+                ->setFrom($email)
+                ->setTo('mohamedhabib.khattat@esprit.tn')
+                ->setBody($this->renderView('emails/sendEmail.html.twig',array('name' => $name, 'message' => $message)),'text/html');
+            $mailer->send($subj);
+
+        }
+
+        return $this->render('emails/contact.html.twig',['emailForm' => $form->createView()]);
     }
 
 }

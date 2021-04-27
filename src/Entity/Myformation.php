@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MyformationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Myformation
  *
@@ -24,13 +24,18 @@ class Myformation
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups ({"show_formation"})
      */
     private $id;
 
     /**
      * @var string
-     *
+     *@Assert\Length (
+     * min="7",
+     * minMessage="doit contenir au moins {{limit}} caractères"
+     * )
      * @ORM\Column(name="libelle", type="string", length=100, nullable=false)
+     * @Groups ({"show_formation"})
      */
     private $libelle;
 
@@ -38,13 +43,16 @@ class Myformation
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     * @Assert\NotBlank (message="doit etre n'est pas vide, veuilllez remplir ce champ")
+     * @Groups ({"show_formation"})
      */
     private $description;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="date_creation", type="date", nullable=false)
+     * @ORM\Column(name="date", type="date", nullable=false)
+     * @Groups ({"show_formation"})
      */
     private $dateCreation;
 
@@ -52,6 +60,7 @@ class Myformation
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=99, nullable=false)
+     * @Groups ({"show_formation"})
      */
     private $type;
 
@@ -59,6 +68,7 @@ class Myformation
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      * @Assert\NotBlank(message="Upload your image")
      * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     * @Groups ({"show_formation"})
      */
     private $image;
 
