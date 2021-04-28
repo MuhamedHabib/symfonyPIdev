@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Message{% endblock %}
+
+{% block container %}
+
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                        <ol class="breadcrumb">
+                            <li ><a href="#"><i class="fe   fe-box mr-1"></i> HelpDesk</a></li>
+                        </ol>
+                    </div>
+
+                    <div class="card-header">
+                        <div class="card-title"><h3>Détails Message</h3></div>
+                    </div>
+                </div>
+                <div style="width: auto; length: auto ">
+                    <div style="width: auto; length: auto ">
+                        <div >
+                            <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+                            </div>
+                            <div class="btn-group btn-group-sm " >
+
+
+                            </div>
+
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Id message</th>
+                                    <td>{{ message.IdMessage}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Id utilisateur</th>
+                                    <td>{{ message.IdUser}}</td>
+                                </tr>
+                                <tr>
+                                    <th>DateCreation</th>
+                                    <td>{{ message.dateCreation |date('Y-m-d') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Message</th>
+                                    <td>{{ message.message }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Reponse</th>
+                                    <td> {{ message.reponse }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Record</th>
+                                    <td>{{ message.record }}</td>
+                                </tr>
+                                <td>  {% if message.Reponse == "aucune" %}
+                                        <a class="btn btn-primary btn-sm mt-3 mb-3" style="background-color: #761c19; border-color: #761c19" href="{{ path('message_reply', {'idMessage': message.IdMessage})}}">Repondre</a>
+                                    {% else %}
+                                        <a class="btn btn-primary btn-sm mt-3 mb-3" style="background-color: #761c19; border-color: #761c19" href="{{ path('message_reply', {'idMessage': message.IdMessage})}}" disabled="true">Repondre</a>
+                                    {% endif %}
+                                </td>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                    <!-- table-wrapper -->
+                    <div class="card-body">
+
+                    </div>
+
+                </div>
+
+                <!-- section-wrapper -->
+            </div>
+
+
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+
+    </section>
+
+
+
+
+{% endblock %}

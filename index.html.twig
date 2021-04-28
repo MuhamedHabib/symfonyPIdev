@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+{% block container %}
+    <div class="card-title">
+        <div> </div>
+        <h4>Liste des messages</h4>
+    </div>
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+
+                    </div>
+
+                    <div class="card-header">
+                        <div class="card-title"> <h4>Liste des messages</h4> </div>
+                    </div>
+                </div>
+                <div style="width: auto; length: auto ">
+                    <div style="width: auto; length: auto ">
+                        <div >
+                            <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+                                <div class="btn-group btn-group-sm " >
+
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered" >
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th  scope="col">IdMessage</th>
+                                            <th  scope="col">IdUser</th>
+                                            <th  scope="col">DateCreation</th>
+                                            <th  scope="col">Message</th>
+                                            <th  scope="col">Reponse</th>
+                                            <th  scope="col"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for message in messages %}
+                                            <tr>
+                                                <td>{{ message.idMessage }}</td>
+                                                <td>{{ message.idUser }}</td>
+                                                <td>{{ message.dateCreation |date('Y-m-d') }}</td>
+                                                <td>{{ message.message }}</td>
+                                                <td>{{ message.reponse }}</td>
+                                                <td>
+                                                    <a href="{{ path('message_delete', {'idMessage': message.idMessage}) }}"><i class="fa fa-trash"></i> <span class="sm-1"> </span></a>
+                                                    <a href="{{ path('message_show', {'idMessage': message.idMessage}) }}"><i class="fa fa-eye "></i> <span class="sm-1"></span></a>
+
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="7">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-left: 500px" {{ knp_pagination_render(messages) }} </div>
+
+                                </div>
+                            </div>
+                            <!-- table-wrapper -->
+                            <div class="card-body">
+
+                            </div>
+
+                        </div>
+
+                        <!-- section-wrapper -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+
+{% endblock %}
