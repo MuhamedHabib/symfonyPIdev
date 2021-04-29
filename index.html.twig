@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                        <ol class="breadcrumb">
+                            <li ><a href="#"><i class="fe   fe-box mr-1"></i> HelpDesk</a></li>
+                            <li >Liste des événements</li>
+                        </ol>
+                    </div>
+                    <div style="width: auto; length: auto ">
+                        <div style="width: auto; length: auto ">
+
+
+                            <div class="table-bordered ">
+                                <table id="example" class="table table-striped table-bordered" >
+                                    <thead>
+                                    <tr>
+                                        <th>Id Participation</th>
+                                        <th >Nom Evénement</th>
+                                        <th>Nom de catégorie</th>
+                                        <th>Nombre de place</th>
+
+
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr      {% for participation in participations %}
+                                        <tr>
+                                            <td>{{ participation.idParticipation}}</td>
+                                            <td>{{ participation.events.nomEvent }}</td>
+                                            <td>{{ participation.events.categorie.nomcategorie }}</td>
+                                            <td>{{ participation.events.nbrPlace  }}</td>
+
+
+
+                                            <td>
+
+
+                                                <a href="{{ path('participation_show', {'idParticipation': participation.idParticipation}) }}"> <i class="fa fa-eye "></i> <span class="sm-1" > </span></a>
+
+                                             <a   href="{{ path('Imprimer', {'idParticipation': participation.idParticipation}) }}"><i class="fa fa-print "></i> <span class="sm-1" > </span></a>
+                                        </tr>
+
+
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- table-wrapper -->
+                        <div class="card-body">
+
+                        </div>
+
+                    </div>
+
+                    <!-- section-wrapper -->
+                </div>
+
+
+            </div>
+        </div>
+        </div>        </div>
+
+
+        </div>
+
+  </section>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+
+{% block container %}
+
+
+    <h3> Les Participants  </h3>
+
+
+
+    <table id="example" class="table table-striped table-bordered" >
+        <thead>
+        <tr>
+            <th>Id Participation</th>
+            <th >Nom Evénement</th>
+            <th>Nom de catégorie</th>
+            <th>Nombre de place</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr      {% for participation in participations %}
+            <tr>
+                <td>{{ participation.idParticipation}}</td>
+                <td>{{ participation.events.nomEvent }}</td>
+                <td>{{ participation.events.categorie.nomcategorie }}</td>
+                <td>{{ participation.events.nbrPlace  }}</td>
+
+
+
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+
+</div>
+
+
+{% endblock %}
