@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Events{% endblock %}
+
+{% block container %}
+<section id="main-content">
+    <div class="col-md-4 col-sm-4 mb">
+    <h1>Events</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>NomEvent</th>
+                <td>{{ event.nomEvent }}</td>
+
+            </tr>
+            <tr>
+                <th>DateDeb</th>
+                <td>{{ event.dateDeb ? event.dateDeb|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nbr_place</th>
+                <td>{{ event.nbrPlace }}</td>
+            </tr>
+            <tr>
+                <th>Nom de categorie</th>
+                <td>{{ event.categorie.nomcategorie }}</td>
+            </tr>
+
+            <tr>
+                <th>Image</th>
+            <td><img src="{{ asset('img/' ~ event.image ) }}" alt="img" class="image" style="max-height: 100px; width: 100px;" ></td>
+            </tr>
+        </tbody>
+    </table>
+        {{ include('events/_delete_form.html.twig') }}
+    </div>
+</section>
+
+
+{% endblock %}

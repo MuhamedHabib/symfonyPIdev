@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('message_controller_user_delete', {'idMessage': message.idMessage}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.idMessage) }}">
+    <a class="btn btn-primary btn-sm mt-3 mb-3" style="background-color: #761c19; border-color: #761c19">Supprimer</a>
+</form>

@@ -1,0 +1,70 @@
+
+{% extends 'base.html.twig' %}
+
+{# *************************************************************************************** #}
+{% block title %}New Myformation{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="au-card recent-report">
+            <div class="au-card-inner">
+                <section class="dashboard-counts section-padding">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3 class="breadcrumb">
+                                    <i class="fa fa-plus-square"></i>  Ajouter une formationq
+                                </h3>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        {{ form_start(form, {'method': 'post','attr': {'class': 'add_formation' }}) }}
+                                        <div class="form-group">
+                                            <label>Libellé : </label>
+                                            {{ form_widget(form.libelle, {'attr': {'class':'form-control ', 'placeholder': 'libellé','required' : 'true'}}) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description : </label>
+                                            {{ form_widget(form.description , {'attr': {'class':'form-control ', 'placeholder': 'une petite description','required' : 'true'}}) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Type(livre ou vidéo): </label>
+                                            {{ form_widget(form.type , {'attr': {'class':'form-control', 'placeholder': 'type de formation','required' : 'true'}}) }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Image  : </label>
+                                            {{ form_widget(form.image, {'attr': {'class':'form-control', 'placeholder': 'choisir une Icon','required' : 'true'}}) }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>File  : </label>
+                                            {{ form_widget(form.brochure, {'attr': {'class':'form-control', 'placeholder': '','required' : 'true'}}) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>type de formation : </label>
+                                            <input  required type="text" name="typefile" class="form-control" />
+
+
+
+                                        </div>
+
+                                        <button class="btn btn-danger float-right"  type="submit">Ajouter</button>
+                                        <br/><br/>
+                                        {{ form_end(form) }}
+{#{{ include('formation/_form.html.twig') }}#}
+                                        <button class="btn btn-danger float-right"  type="submit"><a style="color: #FFFFFF" href="{{ path('list_formation') }}">back to list</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+{% endblock content %}

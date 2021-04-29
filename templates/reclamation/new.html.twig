@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block container %}
+    <section id="main-content">
+    <div class="col-md-4 col-sm-4 mb">
+  <h2>Ajouter une nouvelle reclamation</h2>
+
+    {{ include('reclamation/_form.html.twig') }}
+    <td><img src="{{ asset('img/' ~ reclamation.screenshot ) }}" alt="img" class="image" style="max-height: 150px; width: 120px;" ></td>
+
+
+            {{ form_start(form)}}
+            <div class="card-body">    <div class="app-content">
+
+                    <div class="side-app">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card m-b-20">
+                                    <div class="card-header">
+                                        {% trans %}  <h3 class="card-title">Ajouter réclamation</h3>{% endtrans %}
+
+                                    </div>
+
+                <form>
+                    <div class="form-group">
+                        <label class="form-label" for="exampleInputname">Type</label>
+                        {{ form_widget(form.type , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Type'}} ) }}
+                        {{ form_errors(form.type) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exampleInputPassword2">Sujet</label>
+                        {{ form_widget(form.Object , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Sujet'}} ) }}
+                        {{ form_errors(form.Object) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exampleInputEmail2">description</label>
+                        {{ form_widget(form.text , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'description'}} ) }}
+                        {{ form_errors(form.text) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exampleInputPassword2">Image</label>
+                        {{ form_widget(form.screenshot , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Image'}} ) }}
+                        {{ form_errors(form.screenshot) }}
+                    </div>
+                    <td><img src="{{ asset('img/' ~ reclamation.screenshot ) }}" alt="img" class="image" style="max-height: 150px; width: 120px;" ></td>
+
+                    <div class="form-group mb-0">
+                        <div class="checkbox checkbox-secondary">
+                            {{ form_widget(form) }}
+                            <button type="SubmitType" class="btn btn-primary ">Ajouter </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+    </div>
+    </div>
+    </div></div>
+    </section>
+{% endblock %}
+
+

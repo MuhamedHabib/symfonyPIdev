@@ -1,0 +1,94 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Réclamation{% endblock %}
+
+{% block container %}
+
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+
+                    </div>
+
+                    <div class="card-header">
+                        <div class="card-title"><h3>Détails réclamation</h3></div>
+                    </div>
+                </div>
+                <div style="width: auto; length: auto ">
+                    <div style="width: auto; length: auto ">
+                        <div >
+                            <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+                            </div>
+                            <div class="btn-group btn-group-sm " >
+                            </div>
+
+                            <table class="table">
+                                <tbody>
+
+                                <tr>
+                                    <th>Date creation</th>
+                                    <td>{{ reclamation.dateCreation |date('Y-m-d') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date validation</th>
+                                    <td>{% if reclamation.statut == "validée" %}
+                                            {{ reclamation.dateValidation |date('Y-m-d') }}
+                                        {% else %}
+                                            {{ reclamation.dateValidation }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Type</th>
+                                    <td>{{ reclamation.type }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Sujet</th>
+                                    <td>{{ reclamation.object }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Text</th>
+                                    <td>{{ reclamation.text }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Statut</th>
+                                    <td>{{ reclamation.statut }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Image</th>
+                                    <td><img src="{{ asset('img/' ~ reclamation.screenshot ) }}" alt="img" class="image" style="max-height: 100px; width: 100px;" ></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                    <!-- table-wrapper -->
+                    <div class="card-body">
+
+                    </div>
+
+                </div>
+
+                <!-- section-wrapper -->
+            </div>
+
+
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+        <a class="btn btn-primary btn-sm mt-3 mb-3"  style="background-color: #761c19; border-color: #761c19" href="{{ path('reclamation_controller_user_index')}}">Retour</a>
+
+
+    </section>
+
+{% endblock %}

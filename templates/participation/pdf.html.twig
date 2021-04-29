@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<div style="width: auto; length: auto; margin: auto ">
+    <div class="app-content">
+        <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+            <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                <ol class="breadcrumb">
+                </ol>
+            </div>
+            <div class="card-header">
+            <div class="card-title"><h3>Liste des participants</h3></div>
+
+
+        </div>
+    </div>
+    <div style="width: auto; length: auto ">
+    <div style="width: auto; length: auto ">
+    <div >
+        <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+        </div>
+        <div class="btn-group btn-group-sm " >
+        </div>
+    <table id="example" class="table table-striped table-bordered" >
+
+        <tbody>
+        <tr      {% for participation in participations %}
+            <tr>
+                <th>Id Participation</th>
+                <td>{{ participation.idParticipation}}</td>
+            </tr>
+            <tr>
+                <th >Nom Evénement</th>
+                <td>{{ participation.events.nomEvent }}</td>
+            </tr>
+            <tr>
+                <th>Nom de catégorie</th>
+                <td>{{ participation.events.categorie.nomcategorie }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de place</th>
+                <td>{{ participation.events.nbrPlace  }}</td>
+            </tr>
+
+
+
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+        <!-- table-wrapper -->
+        <div class="card-body">
+
+        </div>
+
+    </div>
+
+        <!-- section-wrapper -->
+    </div>
+    </div>
+        </div>
+        </div>
+        </div>
+        </div>
+</html>

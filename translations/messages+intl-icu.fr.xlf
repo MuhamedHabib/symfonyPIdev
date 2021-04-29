@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="_9QjrN2" resname="&lt;h4&gt;Liste des messages&lt;/h4&gt;">
+        <source>&lt;h4&gt;Liste des messages&lt;/h4&gt;</source>
+        <target><![CDATA[__<h4>List of messages</h4>]]></target>
+      </trans-unit>
+      <trans-unit id="rGWPM1y" resname="&lt;h4&gt;Liste des réclamations&lt;/h4&gt;">
+        <source>&lt;h4&gt;Liste des réclamations&lt;/h4&gt;</source>
+        <target><![CDATA[__<h4>List of complaints</h4>]]></target>
+      </trans-unit>
+      <trans-unit id="3wFBddv" resname="&lt;h3 class=&quot;card-title&quot;&gt;Ajouter réclamation&lt;/h3&gt;">
+        <source>&lt;h3 class="card-title"&gt;Ajouter réclamation&lt;/h3&gt;</source>
+        <target><![CDATA[__<h3 class="card-title">Add complaints</h3>]]></target>
+      </trans-unit>
+      <trans-unit id="A_zL2HY" resname="&lt;h3&gt;Détails réclamation&lt;/h3&gt;">
+        <source>&lt;h3&gt;Détails réclamation&lt;/h3&gt;</source>
+        <target><![CDATA[__<h3>Details of complaints</h3>]]></target>
+      </trans-unit>
+      <trans-unit id="9vHeEl." resname="&lt;h3&gt;Modifier réclamation&lt;/h3&gt;">
+        <source>&lt;h3&gt;Modifier réclamation&lt;/h3&gt;</source>
+        <target><![CDATA[__<h3>Modify complaint</h3>]]></target>
+      </trans-unit>
+      <trans-unit id="flQM7pi" resname="&lt;h3&gt;Ajouter une réclamation&lt;/h3&gt;">
+        <source>&lt;h3&gt;Ajouter une réclamation&lt;/h3&gt;</source>
+        <target><![CDATA[__<h3>Add a complaint</h3>]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

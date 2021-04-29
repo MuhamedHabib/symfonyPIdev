@@ -1,0 +1,108 @@
+
+{% extends 'baseUser.html.twig' %}
+
+{% block container %}
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                        <ol class="breadcrumb">
+
+                        </ol>
+                    </div>
+                    <div style="width: auto; length: auto ">
+
+                        <div style="width: auto; length: auto ">
+                            <div >
+
+                                <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+                                    <div class="btn-group btn-group-sm " >
+
+
+
+
+
+                                    </div>
+                                    {{ form_start(form) }}
+
+                                    <div class="form-row align-items-end" >
+                                        <div class="col">
+                                            {{ form_row(form.nomEvent) }}
+
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success">Rechercher</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form_end(form) }}
+
+
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-striped table-bordered" >
+                                            <thead>
+                                            <tr>
+                                                <th >Nom Evénement</th>
+                                                <th>Nom de catégorie</th>
+                                                <th>Nombre de place</th>
+                                                <th>Date debut</th>
+                                                <th>Date Fin</th>
+                                                <th>Image</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody >
+                                            <tr      {% for event in events %}
+
+                                                <tr>
+                                                    <td>{{ event.nomEvent }}</td>
+                                                    <td>{{ event.categorie.nomcategorie }}</td>
+                                                    <td>{{ event.nbrPlace }}</td>
+                                                    <td>{{ event.dateDeb ? event.dateDeb|date('Y-m-d') : '' }}</td>
+                                                    <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+                                                    <td><img src="{{ asset('img/' ~ event.image ) }}" alt="img" class="image" style="max-height: 100px; width: 100px;" ></td>
+                                                    {% if  event.nbrPlace is same as (0) %}
+
+                                                    <td class="text-center">Event Full</td>
+
+                                                    {% else  %}
+                                                        <td>
+                                                            <a href="{{ path('participation_new')}}">Participer</a>
+
+                                                        </td>
+
+                                                    {% endif %}
+                                                </tr>
+
+
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                                <!-- table-wrapper -->
+                                <div class="card-body">
+
+                                </div>
+
+                            </div>
+
+                            <!-- section-wrapper -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+    </section>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block container %}
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+
+                    </div>
+
+                    <div class="card-header">
+                        <div class="card-title"><h3>Ajouter une réclamation</h3></div>
+                    </div>
+
+                </div>
+                <div style="width: auto; length: auto ">
+                    <div style="width: auto; length: auto ">
+                        <div >
+                            <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+                            </div>
+                            
+                            <div class="btn-group btn-group-sm " >
+                            </div>
+
+                            {{ form_start(form)}}
+                                    <form>
+                                        <div class="form-group">
+                                            <label class="form-label" for="exampleInputname">Type</label>
+                                            {{ form_widget(form.type , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Type'}} ) }}
+                                            {{ form_errors(form.type) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" >Sujet</label>
+                                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                                Ce champs est obligatoire
+                                            </small>
+                                            {{ form_widget(form.object , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'sujet'}} ) }}
+                                            {{ form_errors(form.object) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="exampleInputEmail2">description</label>
+                                            <small id="password" class="form-text text-muted">
+                                              Ce champs est obligatoire
+                                            </small>
+                                            {{ form_widget(form.text , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'description'}} ) }}
+                                            {{ form_errors(form.text) }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="exampleInputPassword2">Image</label>
+                                            {{ form_widget(form.screenshot , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Image'}} ) }}
+                                            {{ form_errors(form.screenshot) }}
+                                        </div>
+
+                                        <div class="row " style="margin-left: 400px">
+                                            <div class="col-md-3 offset-md-3  " style="padding-bottom: 10px;  margin: 50px 0 0px;  border-bottom: 10px  " >
+                                                <div class="form-group" style="width: 300px">
+                                                    <label for="exampleFormControlInput1" >Are you a robot</label>
+                                                    {{ form_widget(form.captchaCode, {'attr' : { 'class' : 'form-control'}})  }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {% set formErrors = form.vars.errors.form.getErrors(true) %}
+
+                                        {% if formErrors|length %}
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                {% for error in formErrors %}
+                                                <li>{{ error.message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="form-group mb-0">
+                                            <div class="checkbox checkbox-secondary">
+                                                {{ form_widget(form) }}
+                                                <button type="SubmitType" class="btn btn-primary " style="background-color: #761c19; border-color: #761c19 ; margin-left: 500px; width: 100px" >Ajouter </button>
+                                            </div>
+                                            <div>
+                                                <a  class="btn btn-primary" style="background-color: #761c19; border-color: #761c19 ; margin-left: 450px" href="{{ path('reclamation_controller_user_index', {'idReclamation': reclamation.idReclamation}) }}">Consulter mes réclamations</a>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+
+    </section>
+{% endblock %}
+

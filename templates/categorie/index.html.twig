@@ -1,0 +1,89 @@
+
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <!-- Load Flashy default CSS -->
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+    <script src="//code.jquery.com/jquery.js"></script>
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                        <ol class="breadcrumb">
+                            <li ><a href="#"><i class="fe   fe-box mr-1"></i> HelpDesk</a></li>
+                            <li >Liste des categories</li>
+                        </ol>
+                    </div>
+                    <div style="width: auto; length: auto ">
+                        <div style="width: auto; length: auto ">
+                            <div >
+                                <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+                                    <button>
+                                        <a href="{{ path('categorie_new')}}">  <i class="fa fa-plus pull-right"></i> <span class="sm-1 "> </span></a>
+                                    </button>
+                                    <div class="btn-group btn-group-sm " >
+
+
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-striped table-bordered" >
+                                            <thead>
+                                            <tr>
+
+                                                <th>Nom de catégorie</th>
+                                                <th>Description</th>
+
+
+                                                <th>actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr      {% for categorie in categories %}
+
+                                                <tr>
+                                                    <td>{{ categorie.nomcategorie }}</td>
+                                                    <td>{{ categorie.description }}</td>
+
+
+                                                    <td>
+
+                                                        <a href="{{ path('categorie_show', {'id': categorie.id}) }}" ><i class="fa fa-eye "></i> <span class="sm-1" > </span></a>
+
+                                                        <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">  <i class="fa fa-pencil "></i> <span class="sm-1" > </span></a>
+
+                                                    </td>
+                                                </tr>
+
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                        <div style="margin-left: 500px" {{ knp_pagination_render(categories) }} </div>
+
+                                    </div>
+                                </div>
+                                <!-- table-wrapper -->
+                                <div class="card-body">
+
+                                </div>
+
+                            </div>
+
+                            <!-- section-wrapper -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

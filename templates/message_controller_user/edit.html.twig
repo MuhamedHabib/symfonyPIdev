@@ -1,0 +1,13 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Edit Message{% endblock %}
+
+{% block container %}
+    <h1>Modifier Message</h1>
+
+    {{ include('message_controller_user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('message_controller_user_index') }}">back to list</a>
+
+    {{ include('message_controller_user/_delete_form.html.twig') }}
+{% endblock %}

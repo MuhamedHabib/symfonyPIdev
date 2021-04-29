@@ -1,0 +1,75 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block container %}
+<section id="main-content">
+    <div style="width: auto; length: auto ">
+        <div class="app-content">
+            <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+
+                </div>
+
+                <div class="card-header">
+                    <div class="card-title"><h3>Modifier réclamation</h3></div>
+                </div>
+                {% for message in app.flashes('info') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div style="width: auto; length: auto ">
+                <div style="width: auto; length: auto ">
+                    <div >
+                        <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+                        </div>
+                        <div class="btn-group btn-group-sm " >
+                        </div>
+
+                    {{ form_start(form)}}
+                    <div class="card-body">
+
+                        <div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputname">Type</label>
+                                {{ form_widget(form.type , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Type'}} ) }}
+                                {{ form_errors(form.type) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputPassword2">Sujet</label>
+                                {{ form_widget(form.object , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Sujet'}} ) }}
+                                {{ form_errors(form.object) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail2">description</label>
+                                {{ form_widget(form.text , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'description'}} ) }}
+                                {{ form_errors(form.text) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputPassword2">Image</label>
+                                {{ form_widget(form.screenshot , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Image'}} ) }}
+                                {{ form_errors(form.screenshot) }}
+                            </div>
+                            <td><img src="{{ asset('img/' ~ reclamation.screenshot ) }}" alt="img" class="image" style="width: 250px; length: 350px" ></td>
+
+                            <tr> {{ include('reclamation_controller_user/_form.html.twig', {'button_label': 'Modifier'}) }} </tr>
+
+                         <tr>   {{ include('reclamation_controller_user/delete_form.html.twig') }}</tr>
+                        </form>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <a class="btn btn-primary btn-sm mt-3 mb-3"  style="background-color: #761c19; border-color: #761c19" href="{{ path('reclamation_controller_user_index')}}">Retour</a>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+
+{% extends 'base.html.twig' %}
+{% block title %}La liste de formation{% endblock %}
+{% block content %}
+<div class="container">
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box" style="height: 900px;">
+                    <div class="box-header">
+                        <h3 class="box-title">Liste de formations </h3>
+                        <form method="post" action="{{ path('rechercheM') }}">
+                            <input type="text" name="search" placeholder="Rechercher" required="">
+                            <button class="btn btn-danger float-right"  type="submit"> Recherche</button>
+
+                        </form>
+                        <button type="button" class="btn btn-block btn-white"><a class="" href="{{ path('add_formation') }}"><i class="fa fa-plus"></i>Ajouter une formation </a></button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>title</th>
+                                <th>Description</th>
+                                <th>Date Creation </th>
+                                <th>Extension </th>
+                                <th>image </th>
+                                <th>file</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for formation in formations %}
+                                <tr>
+                                    <td><a href=" {{ path('detail', {'id': formation.id}) }}">#{{ formation.id }} </a></td>
+                                    <td>{{ formation.libelle }}</td>
+                                    <td>{{ formation.description }}</td>
+                                    <td>{{ formation.dateCreation|date("m/d/Y") }}</td>
+                                    <td>{{ formation.type }}</td>
+                                    <td><img  src="{{ asset('uploads/brochures/' ~ formation.getImage()) }}" width="100"/></td>
+
+                                    {% if formation.brochureFilename %}
+                                     <td>
+                                    {% for file in formation.brochureFilename %}
+                                        <a href="{{ asset('uploads/brochures/' ~ file.myFile) }}">View brochure (PDF)</a>
+                                    {% endfor %}</td>
+                                    {% else %}
+                                        <td>
+                                            <span> rien </span>
+                                         </td>
+                                        {% endif %}
+
+                                    <td><a href="{{ path('edit_formation', {'id': formation.id}) }}"> &nbsp; <i class="fa fa-pencil"></i></a><br></td>
+                                    <td><a href="{{ path('delete_formation', {'id': formation.id}) }}">&nbsp;<i class="fa fa-trash" ></i></a></td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+
+        <div id="div_chart"></div>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            {{ gc_draw(piechart, 'div_chart') }}
+        </script>
+
+    </section>
+</div>
+
+{% endblock  content%}

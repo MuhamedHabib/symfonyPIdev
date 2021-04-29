@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}Detailes formation{% endblock %}
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box " style="height: 900px;">
+                    <div class="box-header">
+                        <button type="button" class="btn btn-block btn-primary"><a class="" href="{{ path('add_formation') }}"><i class="fa fa-plus"></i>New formation </a></button>
+                        <h4 class="box-title">les détailes de formation #{{formation.id }} </h4>
+
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>libelle : &nbsp</strong> {{ formation.libelle }}</li>
+                                <li class="list-group-item"><strong>Description : &nbsp</strong>{{ formation.description }} </li>
+                                <li class="list-group-item"><strong>Type : &nbsp</strong>{{ formation.type }}</li>
+                                <li class="list-group-item"><strong>Date de creation : &nbsp</strong>{{ formation.dateCreation|date("m/d/Y") }} </li>
+
+                                <li class="list-group-item"><strong>Images : &nbsp</strong>
+                                 <img  src="{{ asset('uploads/brochures/' ~ formation.getImage()) }}" width="100"/></td>
+                                </li>
+                                <li>
+                                    {% if formation.brochureFilename %}
+                                            {% for file in formation.brochureFilename %}
+                                <li class="list-group-item"><strong>Type de formation : &nbsp</strong>{{ file.file }} &nbsp</strong>
+                                    <a href="{{ asset('uploads/brochures/' ~ file.myFile) }}">{{ file.Myfile }}View brochure (PDF)</a>
+                                            {% endfor %}
+                                    {% else %}
+                                            <span> rien </span>
+                                    {% endif %}
+                                </li>
+                                 <li>
+                                     <button class="btn btn-danger float-right"  type="submit"><a style="color: #FFFFFF" href="{{ path('list_formation') }}">back to list</a></button>
+                                     <div class="button pull-right" style="font-size: 30px"><a href="{{ path('edit_formation', {'id': formation.id}) }}"> &nbsp; <i class="fa fa-pencil"></i></a><br></div>
+                                   <div class="button pull-right" style="font-size: 30px"><a href="{{ path('delete_formation', {'id': formation.id}) }}">&nbsp;<i class="fa fa-trash" ></i></a></div>
+                                 </li>
+
+                            </ul>
+                        </div>
+                        <br>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <!-- /.box-body -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+
+    </section>
+
+
+
+
+{% endblock content %}

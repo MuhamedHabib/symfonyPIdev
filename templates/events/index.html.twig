@@ -1,0 +1,99 @@
+
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                        <ol class="breadcrumb">
+                            <li ><a href="#"><i class="fe   fe-box mr-1"></i> HelpDesk</a></li>
+                            <li >Liste des evenements</li>
+                        </ol>
+                    </div>
+                    <div style="width: auto; length: auto ">
+                        <div style="width: auto; length: auto ">
+                            <div >
+                                <input class="form-control" id="myInput" type="text" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+                                <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+                                    <button>
+                                        <a href="{{ path('events_new')}}">  <i class="fa fa-plus pull-right"></i> <span class="sm-1 "> </span></a>
+                                    </button>
+                                    <div class="btn-group btn-group-sm " >
+
+
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="example" class="table table-striped table-bordered" >
+                                            <thead>
+                                            <tr>
+                                                <th >Nom Evénement</th>
+                                                <th>Nom de catégorie</th>
+                                                <th>Nombre de place</th>
+                                                <th>Date debut</th>
+                                                <th>Date Fin</th>
+                                                <th>Image</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="hi">
+                                            <tr      {% for event in events %}
+
+                                                <tr>
+                                                    <td>{{ event.nomEvent }}</td>
+                                                    <td>{{ event.categorie.nomcategorie }}</td>
+                                                    <td>{{ event.nbrPlace }}</td>
+                                                    <td>{{ event.dateDeb ? event.dateDeb|date('Y-m-d') : '' }}</td>
+                                                    <td>{{ event.dateFin ? event.dateFin|date('Y-m-d') : '' }}</td>
+                                                    <td><img src="{{ asset('img/' ~ event.image ) }}" alt="img" class="image" style="max-height: 100px; width: 100px;" ></td>
+
+
+                                                    <td>
+
+                                                        <a href="{{ path('events_show', {'idEvent': event.idEvent}) }}" ><i class="fa fa-eye "></i> <span class="sm-1" > </span></a>
+
+                                                        <a href="{{ path('events_edit', {'idEvent': event.idEvent}) }}">  <i class="fa fa-pencil "></i> <span class="sm-1" > </span></a>
+
+                                                    </td>
+                                                </tr>
+
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <div style="margin-left: 500px" {{ knp_pagination_render(events) }} </div>
+
+
+                                </div>
+                            </div>
+                            <!-- table-wrapper -->
+                            <div class="card-body">
+
+                            </div>
+
+                        </div>
+
+                        <!-- section-wrapper -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#hi tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
+
+    </section>
+{% endblock %}

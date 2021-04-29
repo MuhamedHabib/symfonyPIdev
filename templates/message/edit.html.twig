@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Message{% endblock %}
+
+{% block container %}
+<section id="main-content">
+    <div style="width: auto; length: auto ">
+        <div class="app-content">
+            <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <ol class="breadcrumb">
+                        <li ><a href="#"><i class="fe   fe-box mr-1"></i> HelpDesk</a></li>
+                    </ol>
+                </div>
+
+                <div class="card-header">
+                    <div class="card-title"><h3>Détails Message</h3></div>
+                </div>
+            </div>
+            <div style="width: auto; length: auto ">
+                <div style="width: auto; length: auto ">
+                    <div >
+                        <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+
+                        </div>
+                        <div class="btn-group btn-group-sm " >
+
+
+                        </div>
+
+                        {{ form_start(form)}}
+                        <div class="card-body">
+
+                            <div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="exampleInputEmail2">Reponse </label>
+                                    {{ form_widget(form.reponse , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'reponse'}} ) }}
+                                    {{ form_errors(form.reponse) }}
+                                </div>
+
+
+                                <tr>   {{ include('message/_form.html.twig', {'button_label': 'Envoyer'}) }} </tr>
+                                </form>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+            </div>
+
+
+                <!-- table-wrapper -->
+                    <div class="card-body">
+
+                    </div>
+
+                </div>
+
+                <!-- section-wrapper -->
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

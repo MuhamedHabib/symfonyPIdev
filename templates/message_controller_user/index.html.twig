@@ -1,0 +1,85 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+{% block container %}
+
+    <section id="main-content">
+        <div style="width: auto; length: auto ">
+            <div class="app-content">
+                <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+                    <div style="padding-bottom: 20px;  margin: 10px 0 0px;  border-bottom: 1px solid #eee;">
+
+                    </div>
+
+                    <div class="card-header">
+                        <div class="card-title"><h4>Liste des messages</h4></div>
+                    </div>
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div style="width: auto; length: auto ">
+                    <div style="width: auto; length: auto ">
+                        <div >
+                            <div class="btn-toolbar " role="toolbar" aria-label="Programmatic control">
+                            </div>
+                            <a class="btn btn-primary btn-sm mt-3 mb-3" style="background-color: #761c19; border-color: #761c19" href="{{ path('message_controller_user_new')}}">  <i class="fa fa-plus pull-right" ></i> <span class="sm-1 "> </span>Envoyer un message</a>
+
+                            <div class="btn-group btn-group-sm " >
+
+
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped table-bordered" >
+                                        <thead>
+                                        <tr>
+                                            <th>DateCreation</th>
+                                            <th>Message</th>
+                                            <th>Reponse</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for message in messages %}
+                                            <tr>
+                                                <td>{{ message.dateCreation |date('Y-m-d') }}</td>
+                                                <td>{{ message.message }}</td>
+                                                <td>{{ message.reponse }}</td>
+                                                <td>
+                                                    <a href="{{ path('message_controller_user_delete', {'idMessage': message.idMessage}) }}"><i class="fa fa-trash "></i> <span class="sm-1"> </span></a>
+                                                    <a href="{{ path('message_controller_user_show', {'idMessage': message.idMessage}) }}"><i class="fa fa-eye "></i> <span class="sm-1"></span></a>
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="7">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div style="margin-left: 500px" {{ knp_pagination_render(messages) }} </div>
+
+                                </div>
+                            </div>
+                            <!-- table-wrapper -->
+                            <div class="card-body">
+
+                            </div>
+
+                        </div>
+
+                        <!-- section-wrapper -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+
+{% endblock %}
